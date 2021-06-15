@@ -1,0 +1,26 @@
+:80 {
+	basicauth * {
+		test JDJhJDE0JEMydU80TXRJd01tMy9aYWg2Lk5HVWVncGk5dFpWTzM1a1ZqbWJ4VkdTSTV0LkgydEVHN1BH
+	}
+	root * /srv
+	file_server
+	encode zstd gzip
+	php_fastcgi php:9000
+	header {
+		X-Xss-Protection "1; mode=block"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Content-Security-Policy default-src 'self'
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Cache-Control "public, max-age=15, must-revalidate"
+		Feature-Policy "accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'self'; camera 'none'; encrypted-media 'none'; fullscreen 'self'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture *; speaker 'none'; sync-xhr 'none'; usb 'none'; vr 'none'"
+		Server "No."
+	}
+	log {
+		output file /var/log/caddy/access.log {
+			roll_size 10MiB
+			roll_keep 100
+		}		
+		level debug
+	}
+}

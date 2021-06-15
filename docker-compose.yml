@@ -1,0 +1,34 @@
+version: '3.6'
+services:
+
+  caddy:
+    image: caddy
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "2019:2019"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $PWD/conf/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/html:/srv
+      - $PWD/conf/caddy_data:/data
+      - $PWD/conf/caddy_config:/config
+      - $PWD/logs:/var/log/caddy
+
+  php:
+    image: mrnonoss/php8.0.5-pdo-pgsql
+    container_name: php
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./html:/srv
+      - ./conf/php.ini:/usr/local/etc/php/php.ini:ro
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
