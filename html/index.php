@@ -16,12 +16,10 @@ function request() {
 	global $tool, $term;
 	$file = "results/$term.html";
     shell_exec("echo tools.sh $tool $term > pipe/pipe");
-	//echo "<script>self.location='loader.html';</script>";
 	//header("Location: loader.html");
 	while (!file_exists("$file")) {
 		clearstatcache();
 	}
-	//echo "<script>self.location='$file';</script>";
 	header("Location: $file");
 	die();
 }
