@@ -73,6 +73,7 @@ docker pull containrrr/watchtower
 echo "
 # Copie des scripts"
 chmod +x scripts/tools.sh scripts/pipe.sh
+sudo chown $user:$user scripts/tools.sh scripts/pipe.sh
 sudo mv scripts/tools.sh /usr/local/bin/
 sudo mv scripts/pipe.sh /usr/local/bin/
 
@@ -80,9 +81,9 @@ sudo mv scripts/pipe.sh /usr/local/bin/
 # https://stackoverflow.com/a/63719458/13295495 #
 echo "
 # Création du tube nommé (named pipe) et du répertoire de résultats"
-mkdir html/pipe
-mkdir html/results
+mkdir html/pipe html/results
 mkfifo html/pipe/pipe
+sudo chown -R $user:$user html
 
 # Mise en écoute des tubes nommés #
 echo "
