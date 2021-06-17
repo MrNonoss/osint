@@ -18,18 +18,38 @@ read -p "Appuyez sur Entrée pour continuer"
 # Vérification des prérequis #
 echo "
 # Vérification des prérequis"
-if [ `whoami` != root ]; then
+if [[ `whoami` != root ]]; then
     echo "Le script doit être lancé en sudoer"
     exit
 fi
 
-if ! [ -x "$(command -v docker)" ]; then
+if ! [[ -x "$(command -v docker)" ]]; then
   echo 'Erreur: Faut installer docker.' >&2
   exit 1
-elif ! [ -x "$(command -v docker-compose)" ]; then
+elif ! [[ -x "$(command -v docker-compose)" ]]; then
   echo 'Erreur: Faut installer docker-compose.' >&2
   exit 1 
 fi
+
+user_check() {
+  user=$(grep "1000:1000" /etc/passwd | cut -d ":" -f1)
+  read -p "\"$user\" est-il bien votre utilisateur? [O/n] " -n 1 -r nom
+  if [[ $nom =~ ^[Nn]$ ]] ; then
+    echo ""
+    read -p "Alors quel est-il? " user
+    verif=$(cut -d ":" -f1 /etc/passwd | grep $user)
+      if [[ -z "$verif" ]]; then
+	    echo "Cet utilisateur n'existe pas. Interruption"
+	    exit
+	  fi
+    echo "Ok, $user est enregistré"
+  elif [[ ! $nom =~ ^[Oo]$ ]] ; then
+  echo ""
+    echo "Il faut choisir \"Oui\" ou \"Non\""
+	user_check
+  fi
+}
+user_check
 
 # Mise a jour du fuseau horaire #
 echo "
