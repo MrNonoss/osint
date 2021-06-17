@@ -31,6 +31,7 @@ elif ! [[ -x "$(command -v docker-compose)" ]]; then
   exit 1 
 fi
 
+# Vérification de l'utilisateur
 user_check() {
   user=$(grep "1000:1000" /etc/passwd | cut -d ":" -f1)
   read -p "\"$user\" est-il bien votre utilisateur? [O/n] " -n 1 -r nom
