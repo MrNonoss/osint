@@ -5,11 +5,11 @@ echo "Ce script va:
 1 - Vérifier la présence de docker et docker-compose
 2 - Mettre a jour le fuseau horaire
 3 - Télécharger les images docker utiles (ce qui risque prendre du temps)
-4 - Créer un tube nommé (https://stackoverflow.com/a/63719458/13295495)
-5 - Créer un service au démarrage pour mettre le tube nommé en écoute
-6 - Paramétrage de la rotation des logs
-7 - Ajouter une tache cron pour vider les résultats
-8 - Créer un wrapper d'application dans /usr/local/bin/
+4 - Copie des scripts dans /usr/local/bin/
+5 - Créer un tube nommé (https://stackoverflow.com/a/63719458/13295495)
+6 - Créer un service au démarrage pour mettre le tube nommé en écoute
+7 - Paramétrage de la rotation des logs
+8 - Ajouter une tache cron pour vider les résultats
 9 - Lancer un docker-compose pour le serveur web
 10 - Paramétrer les cookies pour Ghunt (https://github.com/mxrch/GHunt#where-i-find-these-5-cookies-)"
 echo ""
@@ -44,12 +44,24 @@ docker pull sundowndev/phoneinfoga
 docker pull theyahya/sherlock
 docker pull mrnonoss/holehe
 docker pull mrnonoss/profil3r
+docker pull caddy
+docker pull mrnonoss/php8.0.5-pdo-pgsql
+docker pull containrrr/watchtower
+
+# Copie des scripts #
+echo "
+# Copie des scripts"
+chmod +x scripts/tools.sh scripts/pipe.sh
+sudo mv scripts/tools.sh /usr/local/bin/
+sudo mv scripts/pipe.sh /usr/local/bin/
 
 # Création du tube nommé (named pipe)           #
 # https://stackoverflow.com/a/63719458/13295495 #
 echo "
-# Création du tube nommé (named pipe)"
-mkfifo html/scripts/pipe
+# Création du tube nommé (named pipe) et du répertoire de résultats"
+mkdir html/pipe
+mkdir html/results
+mkfifo html/pipe/pipe
 
 # Mise en écoute des tubes nommés #
 echo "
@@ -58,7 +70,7 @@ echo "[Unit]
 Description=Mise en écoute du tube nommé
 
 [Service]
-ExecStart=html/scripts/pipe.sh start
+ExecStart=pipe.sh start
 
 [Install]
 WantedBy=multi-user.target" > /lib/systemd/system/pipe.service
@@ -84,11 +96,6 @@ chmod 644 /etc/logrotate.d/caddy
 echo "
 # Ajout de la tache cron pour vider les résultats"
 crontab -l | { cat; echo "0 * * * * rm -Rf ~/osint/html/results/* >/dev/null 2>&1"; } | crontab -
-
-# Copie du wrapper d'applications #
-echo "
-# Copie du wrapper d'applications"
-mv html/scripts/tools.sh /usr/local/bin/
 
 # Lancement du docker-compose #
 echo "
