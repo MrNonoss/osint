@@ -25,9 +25,18 @@ fi
 
 if ! [[ -x "$(command -v docker)" ]]; then
   echo 'Erreur: Faut installer docker.' >&2
-  exit 1
-elif ! [[ -x "$(command -v docker-compose)" ]]; then
+  apt update && apt install docker -y
+fi
+
+if ! [[ -x "$(command -v docker-compose)" ]]; then
   echo 'Erreur: Faut installer docker-compose.' >&2
+  apt update && apt install docker-compose -y
+  exit 1 
+fi
+
+if ! [[ -x "$(command -v ansi2html)" ]]; then
+  echo 'Erreur: Faut installer colorized-logs.' >&2
+  apt update && apt install colorized-logs -y
   exit 1 
 fi
 
@@ -52,6 +61,10 @@ user_check() {
 }
 user_check
 
+# Correction des droits utilisateurs
+mkdir html/pipe html/results logs/resultats
+sudo chown -R $user:$user .
+
 # Mise a jour du fuseau horaire #
 echo "
 # Mise a jour du fuseau horaire"
@@ -73,7 +86,6 @@ docker pull containrrr/watchtower
 echo "
 # Copie des scripts"
 chmod +x scripts/tools.sh scripts/pipe.sh
-sudo chown $user:$user scripts/tools.sh scripts/pipe.sh
 sudo mv scripts/tools.sh /usr/local/bin/
 sudo mv scripts/pipe.sh /usr/local/bin/
 
@@ -81,9 +93,7 @@ sudo mv scripts/pipe.sh /usr/local/bin/
 # https://stackoverflow.com/a/63719458/13295495 #
 echo "
 # Création du tube nommé (named pipe) et du répertoire de résultats"
-mkdir html/pipe html/results
-mkfifo html/pipe/pipe
-sudo chown -R $user:$user html
+mkfifo html/pipe/pipe -m755
 
 # Mise en écoute des tubes nommés #
 echo "
@@ -117,7 +127,7 @@ chmod 644 /etc/logrotate.d/caddy
 # Ajout de la tache cron pour vider les résultats #
 echo "
 # Ajout de la tache cron pour vider les résultats"
-crontab -l | { cat; echo "0 * * * * rm -Rf ~/osint/html/results/* >/dev/null 2>&1"; } | crontab -
+crontab -u $user -l | { cat; echo "0 * * * * rm -Rf ~/osint/html/results/* >/dev/null 2>&1"; } | crontab -
 
 # Lancement du docker-compose #
 echo "
