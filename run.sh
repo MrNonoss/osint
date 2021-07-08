@@ -127,7 +127,7 @@ chmod 644 /etc/logrotate.d/caddy
 # Ajout de la tache cron pour vider les résultats #
 echo "
 # Ajout de la tache cron pour vider les résultats"
-crontab -u $user -l | { cat; echo "0 * * * * rm -Rf ~/osint/html/results/* >/dev/null 2>&1"; } | crontab -
+crontab -u $user -l | { cat; echo "0 * * * * rm -Rf $HOME/osint/html/results/* >/dev/null 2>&1"; } | crontab -
 
 # Lancement du docker-compose #
 echo "
