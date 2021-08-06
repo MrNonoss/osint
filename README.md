@@ -2,6 +2,8 @@
 Il s'agit uniquement d'un framework destiné à rendre disponible en web des outils d'OSINT disponibles en ligne de commande, sur un serveur.
 C'est un "All-In-One" comprenant le serveur web et toutes les dépendances.
 
+![](osint-f.png)
+
 ### Utilisation:
 Ouvrez votre navigateur et rendez-vous sur l'adresse IP de la machine sur laquelle ce framework est installé, entrez une recherche, choisissez l'outil qui vous intéresse et cliquez sur le bouton.
 
