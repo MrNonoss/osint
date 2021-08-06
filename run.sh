@@ -113,7 +113,7 @@ systemctl enable pipe
 # Paramétrage de la rotation des logs #
 echo "
 # Paramétrage de la rotation des logs"
-echo "~/osint/logs/access.log {
+echo "$HOME/osint/logs/access.log {
         rotate 52
         weekly
         compress
