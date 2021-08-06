@@ -29,7 +29,7 @@ Chaque autre outil est également un container docker, avec une image officielle
 Les programmes sont appelés par un script bash, au travers d'un tube nommé, ce qui a pour effet de permettre au container caddy d'envoyer des mots clés à l'hôte, ce qui déclanche l'exécution du bon programme.
 
 ### Installation:
-Il vous faut un serveur, une machine virtuelle ou un ordinateur fonctionnant sous linux et sur lequel vous aveze des droits d'administration et les paquets "git", "docker", "docker-compose" et "colorized-logs" d'installés. J'ai uniquement testé les distribution debian et ubuntu.
+Il vous faut un serveur, une machine virtuelle ou un ordinateur fonctionnant sous linux et sur lequel vous avez des droits d'administration et les paquets "git", "docker", "docker-compose" et "colorized-logs" d'installés. J'ai uniquement testé les distribution debian et ubuntu.
 
 Clonez le dépôt:  <br>
 ```git clone https://github.com/MrNonoss/osint.git``` <br>
