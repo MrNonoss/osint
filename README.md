@@ -56,7 +56,4 @@ Pour résumer, il va: <br>
 ..* Le répertoire ```logs``` contient les logs d'accès au site, ainsi que l'historique des recherches effectuées. <br>
 ..* ```scripts``` contient..... les scripts. <br>
 
-
-
-```:80```
-```:80```
+Have fun !!
