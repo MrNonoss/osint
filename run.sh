@@ -25,18 +25,15 @@ fi
 
 if ! [[ -x "$(command -v docker)" ]]; then
   echo 'Erreur: Faut installer docker.' >&2
-  apt update && apt install docker -y
 fi
 
 if ! [[ -x "$(command -v docker-compose)" ]]; then
   echo 'Erreur: Faut installer docker-compose.' >&2
-  apt update && apt install docker-compose -y
   exit 1 
 fi
 
 if ! [[ -x "$(command -v ansi2html)" ]]; then
   echo 'Erreur: Faut installer colorized-logs.' >&2
-  apt update && apt install colorized-logs -y
   exit 1 
 fi
 
@@ -62,7 +59,7 @@ user_check() {
 user_check
 
 # Correction des droits utilisateurs
-mkdir html/pipe html/results logs/resultats
+mkdir html/pipe html/results logs logs/resultats
 sudo chown -R $user:$user .
 
 # Mise a jour du fuseau horaire #
