@@ -20,21 +20,21 @@ read -p "Appuyez sur Entrée pour continuer"
 echo -e "\e[32m
 # Vérification des prérequis\e[0m"
 if [[ `whoami` != root ]]; then
-    echo "Erreur: Le script doit être lancé en sudoer"
+    echo -e "\e[31mErreur: Le script doit être lancé en sudoer\e[0m"
     exit
 fi
 
 if ! [[ -x "$(command -v docker)" ]]; then
-  echo 'Erreur: il faut installer docker (hint: sudo apt update && sudo apt install docker -y).' >&2
+  echo -e "\e[31mErreur: il faut installer docker (hint: sudo apt update && sudo apt install docker -y).\e[0m" >&2
 fi
 
 if ! [[ -x "$(command -v docker-compose)" ]]; then
-  echo 'Erreur: Il faut installer docker-compose (hint: sudo apt update && sudo apt install docker-compose -y).' >&2
+  echo -e "\e[31mErreur: Il faut installer docker-compose (hint: sudo apt update && sudo apt install docker-compose -y).\e[0m" >&2
   exit 1 
 fi
 
 if ! [[ -x "$(command -v ansi2html)" ]]; then
-  echo 'Erreur: Il faut installer colorized-logs (hint: sudo apt update && sudo apt install colorized-logs -y).' >&2
+  echo -e "\e[31mErreur: Il faut installer colorized-logs (hint: sudo apt update && sudo apt install colorized-logs -y).\e[0m" >&2
   exit 1 
 fi
 
@@ -49,7 +49,7 @@ user_check() {
     read -p "Alors quel est-il? " user
     verif=$(cut -d ":" -f1 /etc/passwd | grep $user)
       if [[ -z "$verif" ]]; then
-	    echo "Cet utilisateur n'existe pas. Interruption"
+	    echo -e "\e[31mCet utilisateur n'existe pas. Interruption\e[0m"
 	    exit
 	  fi
     echo "Ok, $user est enregistré"
