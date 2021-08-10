@@ -17,31 +17,33 @@ echo ""
 read -p "Appuyez sur Entrée pour continuer"
 
 # Vérification des prérequis #
-echo "
-# Vérification des prérequis"
+echo -e "\e[32m
+# Vérification des prérequis\e[0m"
 if [[ `whoami` != root ]]; then
-    echo "Le script doit être lancé en sudoer"
+    echo "Erreur: Le script doit être lancé en sudoer"
     exit
 fi
 
 if ! [[ -x "$(command -v docker)" ]]; then
-  echo 'Erreur: Faut installer docker.' >&2
+  echo 'Erreur: il faut installer docker (hint: sudo apt update && sudo apt install docker -y).' >&2
 fi
 
 if ! [[ -x "$(command -v docker-compose)" ]]; then
-  echo 'Erreur: Faut installer docker-compose.' >&2
+  echo 'Erreur: Il faut installer docker-compose (hint: sudo apt update && sudo apt install docker-compose -y).' >&2
   exit 1 
 fi
 
 if ! [[ -x "$(command -v ansi2html)" ]]; then
-  echo 'Erreur: Faut installer colorized-logs.' >&2
+  echo 'Erreur: Il faut installer colorized-logs (hint: sudo apt update && sudo apt install colorized-logs -y).' >&2
   exit 1 
 fi
 
 # Vérification de l'utilisateur
+echo -e "\e[32m
+# Vérification de l'utilisateur\e[0m"
 user_check() {
   user=$(grep "1000:1000" /etc/passwd | cut -d ":" -f1)
-  read -p "\"$user\" est-il bien votre utilisateur? [O/n] " -n 1 -r nom
+  read -p "\"$user\" est-il bien votre utilisateur? [o/n] " -n 1 -r nom
   if [[ $nom =~ ^[Nn]$ ]] ; then
     echo ""
     read -p "Alors quel est-il? " user
@@ -64,13 +66,13 @@ mkdir html/pipe html/results logs logs/resultats
 sudo chown -R $user:$user .
 
 # Mise a jour du fuseau horaire #
-echo "
-# Mise a jour du fuseau horaire"
+echo -e "\e[32m
+# Mise a jour du fuseau horaire\e[0m"
 timedatectl set-timezone Europe/Paris
 
 # Téléchargement des images Docker #
-echo "
-# Téléchargement des images Docker"
+echo -e "\e[32m
+# Téléchargement des images Docker\e[0m"
 docker pull mxrch/ghunt
 docker pull sundowndev/phoneinfoga
 docker pull theyahya/sherlock
@@ -81,8 +83,8 @@ docker pull mrnonoss/php8.0.5-pdo-pgsql
 docker pull containrrr/watchtower
 
 # Création du wrapper d'application #
-echo "
-# Création du wrapper d'application"
+echo -e "\e[32m
+# Création du wrapper d'application\e[0m"
 echo "#!/bin/sh
 if [[ \$1 == "a" ]]; then
   docker run --rm -v ghunt-resources:/usr/src/app/resources mxrch/ghunt ghunt.py email \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/recherches/ghunt_\$2-$(date +"%Y-%m-%d_%T").html
@@ -98,24 +100,24 @@ else
   echo 'Erreur'
   exit
 fi" > /usr/local/bin/tools.sh
-chmod +x scripts/tools.sh
+chmod +x /usr/local/bin/tools.sh
 
 # Création du script d'écoute #
-echo "
-# Création du script d'écoute "
+echo -e "\e[32m
+# Création du script d'écoute\e[0m"
 echo "#!/bin/sh
 while true; do eval "$(cat $PWD/html/pipe/pipe)"; done" > /usr/local/bin/pipe.sh
 chmod +x /usr/local/bin/pipe.sh
 
 # Création du tube nommé (named pipe)           #
 # https://stackoverflow.com/a/63719458/13295495 #
-echo "
-# Création du tube nommé (named pipe)"
+echo -e "\e[32m
+# Création du tube nommé (named pipe)\e[0m"
 mkfifo html/pipe/pipe -m755
 
 # Création du service d'écoute des tubes nommés #
-echo "
-# Création du service d'écoute des tubes nommés"
+echo -e "\e[32m
+# Création du service d'écoute des tubes nommés\e[0m"
 echo "[Unit]
 Description=Mise en écoute du tube nommé
 
@@ -130,8 +132,8 @@ systemctl enable pipe
 systemctl start pipe
 
 # Paramétrage de la rotation des logs #
-echo "
-# Paramétrage de la rotation des logs"
+echo -e "\e[32m
+# Paramétrage de la rotation des logs\e[0m"
 echo "$PWD/logs/access.log {
         rotate 52
         weekly
@@ -144,21 +146,21 @@ echo "$PWD/logs/access.log {
 chmod 644 /etc/logrotate.d/caddy
 
 # Ajout de la tache cron pour sauvegarder les requêtes #
-echo "
-# Ajout de la tache cron pour sauvegarder les requêtes"
+echo -e "\e[32m
+# Ajout de la tache cron pour sauvegarder les requêtes tous les 10 jours\e[0m"
 crontab -u $user -l | { cat; echo "* * */10 * * tar --create --gzip --file=$PWD/logs/resultats-$(date +%-Y%-m%-d)-$(date +%-T).tgz $PWD/logs/resultats/ >/dev/null 2>&1 && rm $PWD/logs/resultats/*"; } | crontab -
 
 # Ajout de la tache cron pour vider les résultats #
-echo "
-# Ajout de la tache cron pour vider les résultats à minuit"
+echo -e "\e[32m
+# Ajout de la tache cron pour vider les résultats à minuit\e[0m"
 crontab -u $user -l | { cat; echo "0 * * * * rm -Rf $PWD/html/results/* >/dev/null 2>&1"; } | crontab -
 
 # Lancement du docker-compose #
-echo "
-# Lancement du docker-compose"
+echo -e "\e[32m
+# Lancement du docker-compose\e[0m"
 docker-compose up -d
 
 # Création des cookies Ghunt #
-echo "
-# Création des cookies Ghunt"
+echo -e "\e[32m
+# Création des cookies Ghunt\e[0m"
 docker run --rm -ti -v ghunt-resources:/usr/src/app/resources --name ghunt -ti mxrch/ghunt check_and_gen.py
