@@ -13,11 +13,11 @@ L'hôte va executer l'outil et transformer le résultat en une page html que le 
 Le temps de traitement varie de quelques secondes a quelques dizaines de secondes.
 
 ### Liste d'outils:
-..* [Ghunt] (https://github.com/mxrch/GHunt) <br>
-..* [Holehe] (https://github.com/megadose/holehe) <br>
-..* [Sherlock] (https://github.com/sherlock-project/sherlock) <br>
-..* [Profil3r] (https://github.com/Rog3rSm1th/Profil3r=) <br>
-..* [PhoneInfoGa] (https://github.com/sundowndev/phoneinfoga) <br>
+* [Ghunt] (https://github.com/mxrch/GHunt)
+* [Holehe] (https://github.com/megadose/holehe)
+* [Sherlock] (https://github.com/sherlock-project/sherlock)
+* [Profil3r] (https://github.com/Rog3rSm1th/Profil3r=)
+* [PhoneInfoGa] (https://github.com/sundowndev/phoneinfoga)
 
 ### Fonctionalités:
 Le serveur web utilisé est l'image docker officielle de [Caddy] (https://caddyserver.com/) accompagné d'une autre image PHP. Dans sa configuration actuelle, il écoute le port 80, en http. Idéal pour un serveur accessible en LAN seulement.
@@ -42,20 +42,20 @@ Puis lancez le script d'installation en sudoer et laissez-vous guider. <br>
 Le script d'installation ```run.sh```va modifier le système. Je vous encourage fortement a lire son contenu.
 
 Pour résumer, il va: <br>
-..* vérifier les prérequis du système <br>
-..* corriger les droits des répertoires contenus dans le dossier de travail <br>
-..* mettre à jour le fuseau horaire (utile pour les VPS) <br>
-..* télécharger les images docker (ce qui prend du temps) <br>
-..* copier les scripts dans ```/usr/local/bin``` <br>
-..* créer le tube nommé ainsi que le service permettant de rendre l'écoute permanente (y compris après un redémarrage) <br>
-..* paramétrer la rotation des logs caddy à l'aide d'un fichier de configuration logrotate <br>
-..* ajouter une tâche cron pour vider les résultats de recherches <br>
-..* lancer le docker-compose qui va lancer tous les services <br>
+* vérifier les prérequis du système
+* corriger les droits des répertoires contenus dans le dossier de travail
+* mettre à jour le fuseau horaire (utile pour les VPS)
+* télécharger les images docker (ce qui prend du temps)
+* copier les scripts dans ```/usr/local/bin```
+* créer le tube nommé ainsi que le service permettant de rendre l'écoute permanente (y compris après un redémarrage)
+* paramétrer la rotation des logs caddy à l'aide d'un fichier de configuration logrotate
+* ajouter une tâche cron pour vider les résultats de recherches
+* lancer le docker-compose qui va lancer tous les services
 
 ### Emplacement des fichiers:
-..* La configuration du serveur caddy et de php se trouve dans le répertoire ```conf```. <br>
-..* Le corps du site ainsi que le script php se trouve dans ```html```. Ce répertoire contient également un sous répertoire ```results``` qui va recevoir les résultat de la commande et l'afficher au navigateur. <br>
-..* Le répertoire ```logs``` contient les logs d'accès au site, ainsi que l'historique des recherches effectuées. <br>
-..* ```scripts``` contient..... les scripts. <br>
+* La configuration du serveur caddy et de php se trouve dans le répertoire ```conf```.
+* Le corps du site ainsi que le script php se trouve dans ```html```. Ce répertoire contient également un sous répertoire ```results``` qui va recevoir les résultat de la commande et l'afficher au navigateur.
+* Le répertoire ```logs``` contient les logs d'accès au site, ainsi que l'historique des recherches effectuées.
+* ```scripts``` contient..... les scripts.
 
 Have fun !!
