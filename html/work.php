@@ -16,7 +16,6 @@ function request() {
 	global $tool, $term;
 	$file = "results/$term.html";
     shell_exec("echo tools.sh $tool $term > pipe/pipe");
-	//header("Location: loader.html");
 	while (!file_exists("$file")) {
 		clearstatcache();
 	}
