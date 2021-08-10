@@ -87,15 +87,15 @@ echo -e "\e[32m
 # Création du wrapper d'application\e[0m"
 echo "#!/bin/sh
 if [[ \$1 == "a" ]]; then
-  docker run --rm -v ghunt-resources:/usr/src/app/resources mxrch/ghunt ghunt.py email \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/resultats/ghunt_\$2-$(date +"%Y-%m-%d_%T").html
+  docker run --rm -v ghunt-resources:/usr/src/app/resources mxrch/ghunt ghunt.py email \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/resultats/ghunt_\$2-\$(date +"%Y-%m-%d_%T").html
 elif [[ \$1 == "b" ]]; then
-  docker run --rm mrnonoss/holehe holehe --only-used \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/resultats/holehe_\$2-$(date +"%Y-%m-%d_%T").html
+  docker run --rm mrnonoss/holehe holehe --only-used \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/resultats/holehe_\$2-\$(date +"%Y-%m-%d_%T").html
 elif [[ \$1 == "c" ]]; then
-  docker run --rm theyahya/sherlock --print-found  \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/resultats/sherlock_\$2-$(date +"%Y-%m-%d_%T").html
+  docker run --rm theyahya/sherlock --print-found \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/resultats/sherlock_\$2-\$(date +"%Y-%m-%d_%T").html
 elif [[ \$1 == "d" ]]; then
-  docker run --rm -v $PWD/html/results:/Profil3r/reports/html mrnonoss/profil3r python3 profil3r.py -p \$2 | tee $PWD/logs/resultats/Profil3r_\$2-$(date +"%Y-%m-%d_%T").html
+  docker run --rm -v $PWD/html/results:/Profil3r/reports/html mrnonoss/profil3r python3 profil3r.py -p \$2 | tee $PWD/logs/resultats/Profil3r_\$2-\$(date +"%Y-%m-%d_%T").html
 elif [[ \$1 == "e" ]]; then
-  docker run --rm sundowndev/phoneinfoga scan -n \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/resultats/phoneinfoga_\$2-$(date +"%Y-%m-%d_%T").html
+  docker run --rm sundowndev/phoneinfoga scan -n \$2 | ansi2html | tee $PWD/html/results/\$2.html $PWD/logs/resultats/phoneinfoga_\$2-\$(date +"%Y-%m-%d_%T").html
 else 
   echo 'Erreur'
   exit
@@ -105,8 +105,8 @@ chmod +x /usr/local/bin/tools.sh
 # Création du script d'écoute #
 echo -e "\e[32m
 # Création du script d'écoute\e[0m"
-echo "#!/bin/sh
-while true; do eval "$(cat $PWD/html/pipe/pipe)"; done" > /usr/local/bin/pipe.sh
+echo '#!/bin/sh
+while true; do eval "$(cat '$PWD'/html/pipe/pipe)"; done' > pipe.sh
 chmod +x /usr/local/bin/pipe.sh
 
 # Création du tube nommé (named pipe)           #
