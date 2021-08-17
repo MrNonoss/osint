@@ -10,7 +10,7 @@ Ouvrez votre navigateur et rendez-vous sur l'adresse IP de la machine sur laquel
 En fonction de l'outil choisi, un script PHP va envoyer un mot clé au script bash "tools.sh", qui va lui même exécuter l'outil en question.
 L'hôte va executer l'outil et transformer le résultat en une page html que le site va ensuite afficher.
 
-Le temps de traitement varie de quelques secondes a quelques dizaines de secondes.
+Le temps de traitement varie de quelques secondes a quelques dizaines de secondes. Il se peut que le navigateur ne vous affiche aucun résultat. Dans ce cas, attendez quelques secondes et raffraichissez la page.
 
 ### Liste d'outils:
 * [Ghunt] (https://github.com/mxrch/GHunt)
@@ -49,13 +49,12 @@ Pour résumer, il va: <br>
 * copier les scripts dans ```/usr/local/bin```
 * créer le tube nommé ainsi que le service permettant de rendre l'écoute permanente (y compris après un redémarrage)
 * paramétrer la rotation des logs caddy à l'aide d'un fichier de configuration logrotate
-* ajouter une tâche cron pour vider les résultats de recherches
+* ajouter des tâches cron pour les logs et le redémarrage du service à intervalles réguliers
 * lancer le docker-compose qui va lancer tous les services
 
 ### Emplacement des fichiers:
 * La configuration du serveur caddy et de php se trouve dans le répertoire ```conf```.
-* Le corps du site ainsi que le script php se trouve dans ```html```. Ce répertoire contient également un sous répertoire ```results``` qui va recevoir les résultat de la commande et l'afficher au navigateur.
+* Le corps du site ainsi que le script php se trouvent dans ```html```. Ce répertoire contient également un sous répertoire ```results``` qui va recevoir la page HTML affichée au navigateur.
 * Le répertoire ```logs``` contient les logs d'accès au site, ainsi que l'historique des recherches effectuées.
-* ```scripts``` contient..... les scripts.
 
 Have fun !!
