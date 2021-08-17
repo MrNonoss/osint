@@ -10,7 +10,7 @@ Ouvrez votre navigateur et rendez-vous sur l'adresse IP de la machine sur laquel
 En fonction de l'outil choisi, un script PHP va envoyer un mot clé au script bash "tools.sh", qui va lui même exécuter l'outil en question.
 L'hôte va executer l'outil et transformer le résultat en une page html que le site va ensuite afficher.
 
-Le temps de traitement varie de quelques secondes a quelques dizaines de secondes. Il se peut que le navigateur ne vous affiche aucun résultat. Dans ce cas, attendez quelques secondes et raffraichissez la page.
+Le temps de traitement varie de quelques secondes a quelques dizaines de secondes. **Il se peut que le navigateur ne vous affiche aucun résultat. Dans ce cas, attendez quelques secondes et raffraichissez la page.**
 
 ### Liste d'outils:
 * [Ghunt] (https://github.com/mxrch/GHunt)
