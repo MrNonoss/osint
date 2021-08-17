@@ -11,8 +11,9 @@ echo "Ce script va:
 7 - Paramétrer la rotation des logs
 8 - Ajouter une tache cron pour sauvegarder les requêtes
 9 - Ajouter une tache cron pour vider les résultats
-10 - Lancer un docker-compose pour le serveur web
-11 - Paramétrer les cookies pour Ghunt (https://github.com/mxrch/GHunt#where-i-find-these-5-cookies-)"
+10 - Ajouter une tache cron pour redémarrer le service pipe
+11 - Lancer un docker-compose pour le serveur web
+12 - Paramétrer les cookies pour Ghunt (https://github.com/mxrch/GHunt#where-i-find-these-5-cookies-)"
 echo ""
 read -p "Appuyez sur Entrée pour continuer"
 
@@ -148,12 +149,17 @@ chmod 644 /etc/logrotate.d/caddy
 # Ajout de la tache cron pour sauvegarder les requêtes #
 echo -e "\e[32m
 # Ajout de la tache cron pour sauvegarder les requêtes tous les 10 jours\e[0m"
-crontab -u $user -l | { cat; echo "* * */10 * * tar --create --gzip --file=$PWD/logs/resultats-$(date +%-Y%-m%-d)-$(date +%-T).tgz $PWD/logs/resultats/ >/dev/null 2>&1 && rm $PWD/logs/resultats/*"; } | crontab -
+crontab -u $user -l | { cat; echo "* * */10 * * tar --create --gzip --file=$PWD/logs/resultats-\$(date +%-Y%-m%-d)-\$(date +%-T).tgz $PWD/logs/resultats/ >/dev/null 2>&1 && rm $PWD/logs/resultats/*"; } | crontab -
 
 # Ajout de la tache cron pour vider les résultats #
 echo -e "\e[32m
 # Ajout de la tache cron pour vider les résultats à minuit\e[0m"
 crontab -u $user -l | { cat; echo "0 * * * * rm -Rf $PWD/html/results/* >/dev/null 2>&1"; } | crontab -
+
+# Ajout de la tache cron pour redémarrer le service pipe #
+echo -e "\e[32m
+# Ajout de la tache cron pour redémarrer le service pipe\e[0m"
+crontab -l | { cat; echo "* */6 * * * systemctl restart pipe >/dev/null 2>&1"; } | crontab -
 
 # Lancement du docker-compose #
 echo -e "\e[32m
