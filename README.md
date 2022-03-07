@@ -1,3 +1,5 @@
+Outils déprécié car trop difficile a mettre en oeuvre. Archivé et remplacé par https://github.com/MrNonoss/FROS
+
 # OSINT Facilitateur
 Il s'agit uniquement d'un framework destiné à rendre disponible en web des outils d'OSINT disponibles en ligne de commande, sur un serveur.
 C'est un "All-In-One" comprenant le serveur web et toutes les dépendances.
